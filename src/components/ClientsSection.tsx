@@ -11,6 +11,8 @@ import SterlingWilsonLogo from "../assets/pr-logo/pr-logo/sterling & wilson.png"
 import PGCILLogo from "../assets/pr-logo/pr-logo/PGCIL.jpeg";
 import TNEBLogo from "../assets/pr-logo/pr-logo/TNEB.jpeg";
 import TVSLogo from "../assets/pr-logo/pr-logo/TVS.png";
+import indo from "../assets/pr-logo/pr-logo/indo.jpg";
+import median from "../assets/pr-logo/pr-logo/meiden.jpg";
 
 const ClientsSection = () => {
   const logos = [
@@ -22,6 +24,8 @@ const ClientsSection = () => {
     { src: PGCILLogo, alt: "PGCIL" },
     { src: TNEBLogo, alt: "TNEB" },
     { src: TVSLogo, alt: "TVS" },
+    { src: indo,alt:"indo"},
+    { src : median, alt:"median"},
   ];
 
   return (
