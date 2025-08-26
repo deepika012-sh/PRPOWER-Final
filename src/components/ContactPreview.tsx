@@ -2,14 +2,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Send,
-  MessageSquare,
-  ArrowRight,
-} from "lucide-react";
+import { Phone, Mail, MapPin, Send, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -44,13 +37,28 @@ const ContactPreview = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    const templateParams = {
+      from_name: data.user_name,
+      from_email: data.user_email,
+      service: data.service,
+      message: data.message,
+    };
+
     emailjs
-      .send("your_service_id", "your_template_id", data, "your_public_key")
+      .send(
+        "pr_power", // ✅ Your EmailJS Service ID
+        "template_ghkceht", // ✅ Your NEW Template ID
+        templateParams,
+        "oy6X13CAfsK_PoPpN" // ✅ Your Public Key
+      )
       .then(() => {
-        toast.success("Message sent successfully!");
+        toast.success("✅ Message sent successfully!");
         reset();
       })
-      .catch(() => toast.error("Failed to send message."));
+      .catch((err) => {
+        console.error("EmailJS Error:", err);
+        toast.error("❌ Failed to send message.");
+      });
   };
 
   return (
@@ -89,7 +97,9 @@ const ContactPreview = () => {
                     <Icon className="text-white w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">{contact.title}</h4>
+                    <h4 className="font-semibold text-foreground mb-1">
+                      {contact.title}
+                    </h4>
                     {contact.details.map((d, j) => (
                       <p
                         key={j}
@@ -112,17 +122,23 @@ const ContactPreview = () => {
             viewport={{ once: true }}
             className="bg-card p-8 rounded-xl shadow-md border border-border"
           >
-            <h3 className="text-2xl font-bold text-primary mb-4">Quick Inquiry</h3>
+            <h3 className="text-2xl font-bold text-orange-600 mb-4">
+              Quick Inquiry
+            </h3>
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-muted-foreground">Full Name</label>
+                  <label className="text-sm text-muted-foreground">
+                    Full Name
+                  </label>
                   <Input
                     {...register("user_name", { required: true })}
                     placeholder="Name"
                   />
                   {errors.user_name && (
-                    <span className="text-xs text-red-500">Name is required</span>
+                    <span className="text-xs text-red-500">
+                      Name is required
+                    </span>
                   )}
                 </div>
                 <div>
@@ -133,7 +149,9 @@ const ContactPreview = () => {
                     placeholder="you@email.com"
                   />
                   {errors.user_email && (
-                    <span className="text-xs text-red-500">Email is required</span>
+                    <span className="text-xs text-red-500">
+                      Email is required
+                    </span>
                   )}
                 </div>
               </div>
@@ -162,7 +180,9 @@ const ContactPreview = () => {
                   className="resize-none"
                 />
                 {errors.message && (
-                  <span className="text-xs text-red-500">Message is required</span>
+                  <span className="text-xs text-red-500">
+                    Message is required
+                  </span>
                 )}
               </div>
               <Button
@@ -171,7 +191,7 @@ const ContactPreview = () => {
                 className="w-full bg-gradient-to-r from-[#F26B1D] to-yellow-400 text-white hover:scale-105 transition"
               >
                 <Send className="w-5 h-5 mr-2" /> Send Message
-                <MessageSquare className="w-5 h-5 ml-2" />
+
               </Button>
             </form>
           </motion.div>
