@@ -1,120 +1,152 @@
-import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Project data
-const projects = [
-  {
-    title: "400kV AIS Substation - Chennai",
-    image: "/projects/ais400.jpg",
-    description: "Turnkey EPC execution of 400kV Air Insulated Substation with control & relay panels.",
-  },
-  {
-    title: "220kV GIS Substation - Coimbatore",
-    image: "/projects/gis220.jpg",
-    description: "Gas Insulated Substation with compact layout and high-reliability design.",
-  },
-  {
-    title: "Wind Farm Infra - Tirunelveli",
-    image: "/projects/windfarm.jpg",
-    description: "Complete infra for 75MW wind farm including pooling station & evacuation lines.",
-  },
-  {
-    title: "Solar EPC – Trichy",
-    image: "/projects/solar.jpg",
-    description: "Design, procurement, and construction of 10MW ground-mounted solar plant.",
-  },
-  {
-    title: "Transmission Line - Andhra",
-    image: "/projects/txline.jpg",
-    description: "220kV double circuit line spanning 15km with tension towers and OPGW.",
-  },
-];
+// ✅ Import Project Images from assets
+import tadaImg from "../assets/projects/projects/tada.jpg";
+import kustagiImg from "../assets/projects/projects/kustagi.jpg";
+import naydupetImg from "../assets/projects/projects/naydupet.jpg";
 
-const ProjectsPage = () => {
+const ProjectPage = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+
+  const projects = [
+    {
+      title: "132/33kV Substation - TADA",
+      image: tadaImg,
+      description:
+        "132/33KV, SUBSTATION, FOR CUSTOMER Daikin India Ltd, TADA SITE, AP.",
+    },
+    {
+      title: "220/132kV Substation - KUSTAGI",
+      image: kustagiImg,
+      description:
+        "220/33kV, pooling substation for Vena Energy India Pvt Ltd, Kustagi, Karnataka, Koppal District.",
+    },
+    {
+      title: "400kV Substation - NAYDUPET",
+      image: naydupetImg,
+      description:
+        "110/33kV test lab bay work done for Meiden T&D India Ltd, Naydupet, Nellore District, AP.",
+    },
+  ];
+
+  // Close modal on Esc key
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+        setSelectedProject(null);
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
+
+  const openModal = (project: any) => {
+    setSelectedImage(project.image);
+    setSelectedProject(project);
+  };
+
   return (
-    <>
-      {/* Hero Banner */}
-      <section className="relative bg-[url('/projects-banner.jpg')] bg-cover bg-center text-white py-28">
-        <div className="absolute inset-0 bg-black/70 z-0" />
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <motion.h1
-            className="text-4xl md:text-6xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Our Projects
-          </motion.h1>
-          <motion.p
-            className="mt-4 text-lg text-white/90"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            Turnkey infrastructure solutions across India’s power sector
-          </motion.p>
-        </div>
-      </section>
+    <section id="projects" className="py-24 bg-white text-gray-800">
+      <div className="container mx-auto px-4 text-center">
+        {/* Title */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-4xl md:text-5xl font-bold text-orange-600 mb-4"
+        >
+          Our Projects
+        </motion.h2>
+        <p className="text-gray-600 max-w-xl mx-auto mb-12">
+          Delivering excellence through innovative engineering solutions.
+        </p>
 
-      {/* Projects Grid */}
-      <section className="bg-white text-gray-800 py-20 px-4 md:px-12">
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-orange-600 mb-4"
-          >
-            Featured Work
-          </motion.h2>
-          <p className="text-gray-600 max-w-xl mx-auto mb-12">
-            Explore our successful executions in substations, renewables, and power transmission.
-          </p>
-
-          {/* Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <motion.article
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
-                className="relative group rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow"
-              >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-52 object-cover transition-transform group-hover:scale-105 duration-300"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-center items-center px-4 text-white text-center">
-                  <h3 className="text-lg font-semibold">{project.title}</h3>
-                  <p className="text-sm mt-1">{project.description}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mt-16"
-          >
-            <a
-              href="/brochure.pdf"
-              download
-              className="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition"
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <motion.div
+              key={index}
+              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 + index * 0.2 }}
+              className="bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition overflow-hidden cursor-pointer"
+              onClick={() => openModal(project)}
             >
-              Download Full Project Brochure <ExternalLink className="ml-2 w-4 h-4" />
-            </a>
-          </motion.div>
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-48 sm:h-56 md:h-48 lg:h-56 object-cover transition-transform duration-300 hover:scale-105"
+              />
+              <div className="p-5">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
+                  {project.title}
+                </h3>
+                <p className="text-gray-600 mt-2 text-sm sm:text-base">
+                  {project.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {selectedImage && selectedProject && (
+          <motion.div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setSelectedImage(null);
+                setSelectedProject(null);
+              }
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              className="relative max-w-3xl w-full rounded-lg shadow-lg bg-white overflow-hidden"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setSelectedImage(null);
+                  setSelectedProject(null);
+                }}
+                className="absolute top-2 right-2 text-gray-800 bg-white rounded-full p-2 shadow hover:bg-gray-100"
+              >
+                ✕
+              </button>
+
+              {/* Image */}
+              <img
+                src={selectedImage}
+                alt={selectedProject.title}
+                className="w-full h-64 sm:h-96 object-cover"
+              />
+
+              {/* Caption */}
+              <div className="p-4 text-left">
+                <h3 className="text-xl font-bold text-gray-800">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-gray-600 mt-2">{selectedProject.description}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 };
 
-export default ProjectsPage;
+export default ProjectPage;
