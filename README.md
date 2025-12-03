@@ -80,13 +80,6 @@ https://pr-power.netlify.app/
 
 
 
-### Desktop View
-
-![Desktop UI](https://via.placeholder.com/1000x600?text=Desktop+View)
-
-### Mobile View
-
-![Mobile UI](https://via.placeholder.com/400x700?text=Mobile+View)
 
 ---
 
