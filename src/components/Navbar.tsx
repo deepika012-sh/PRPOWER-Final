@@ -1,174 +1,152 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo.png";
 
+/* NAV ITEMS */
 const navItems = [
   { name: "Home", id: "home" },
   { name: "About", id: "about" },
   { name: "Services", id: "services" },
   { name: "Clients", id: "clients" },
-  { name: "Projects", path: "/projects" },
-  { name: "Contact", id: "contact" },
+  { name: "Contact Us", id: "contact" },
+  { name: "Projects", path: "/projects" }
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Scroll spy
+  /* SCROLL TO HOME SECTIONS WHEN HASH CHANGES */
   useEffect(() => {
-    if (location.pathname !== "/") return;
+    if (!location.hash) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { threshold: 0.5 }
-    );
+    const sectionId = location.hash.replace("#", "");
+    const el = document.getElementById(sectionId);
+    if (!el) return;
 
-    navItems.forEach((item) => {
-      if (item.id) {
-        const section = document.getElementById(item.id);
-        if (section) observer.observe(section);
-      }
+    // Wait for DOM to fully mount before scrolling
+    setTimeout(() => {
+      const y = el.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }, 150);
+  }, [location.pathname, location.hash]);
+
+  /* SECTION HIGHLIGHT ON SCROLL */
+  useEffect(() => {
+    const sectionIds = navItems.filter((i) => i.id).map((i) => i.id);
+
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSection(id);
+            }
+          });
+        },
+        { threshold: 0.55 }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
     });
 
-    return () =>
-      navItems.forEach((item) => {
-        if (item.id) {
-          const section = document.getElementById(item.id);
-          if (section) observer.unobserve(section);
-        }
-      });
-  }, [location.pathname]);
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
 
-  const scrollToSection = (id: string) => {
-    if (location.pathname !== "/") {
-      navigate(`/#${id}`);
-      return;
-    }
-
-    const element = document.getElementById(id);
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: y, behavior: "smooth" });
-      setActiveSection(id);
-    }
-    setIsOpen(false);
-  };
-
-  const handleNavClick = (item: any) => {
+  /* NAV CLICK HANDLER */
+  const handleClick = (item: any) => {
+    // Route navigation (e.g., Projects page)
     if (item.path) {
+      // remove previous hash to avoid unwanted browser auto-scroll
+      window.location.hash = "";
+
       navigate(item.path);
-    } else {
-      scrollToSection(item.id);
+
+      // Ensure the page goes to the top consistently
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }, 50);
+
+      return setIsOpen(false);
     }
+
+    // Section navigation on Home page
+    navigate(`/#${item.id}`);
+    setIsOpen(false);
   };
 
   return (
     <>
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md h-20 px-4 md:px-10 flex items-center justify-between border-b border-orange-100 shadow-sm">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-extrabold text-orange-700 tracking-wide">
-          PR Power
-        </Link>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b shadow-sm h-14 sm:h-16 flex items-center">
+        <div className="w-full px-3 sm:px-4 md:px-10 flex items-center justify-between">
 
-        {/* Desktop Nav */}
-        <ul className="hidden md:flex space-x-8 text-sm font-medium text-gray-700">
-          {navItems.map((item) => (
-            <li
-              key={item.name}
-              onClick={() => handleNavClick(item)}
-              className={`cursor-pointer transition-colors duration-300 hover:text-orange-600 ${
-                (item.path && location.pathname === item.path) ||
-                (!item.path && activeSection === item.id)
-                  ? "text-orange-600 font-semibold"
-                  : ""
-              }`}
-            >
-              {item.name}
-            </li>
-          ))}
-        </ul>
+          {/* LOGO */}
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="PR Power" className="h-8 sm:h-10 w-auto" />
+          </Link>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex space-x-4">
-          <a
-            href="/PR-POWER-BROCHURE.pdf"
-            target="_blank"
-            className="px-5 py-2 border border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 text-sm transition"
-          >
-            Brochure
-          </a>
-          <button
-            onClick={() => scrollToSection("contact")}
-            className="px-5 py-2 bg-orange-600 text-white rounded-lg text-sm hover:bg-orange-700 transition"
-          >
-            Contact
-          </button>
-        </div>
+          {/* DESKTOP NAVIGATION */}
+          <ul className="hidden md:flex gap-10 font-medium text-gray-700">
+            {navItems.map((item) => {
+              const active =
+                (item.id && activeSection === item.id) ||
+                (item.path && location.pathname === item.path);
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-orange-700 focus:outline-none"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Nav */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ y: -15, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -15, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-20 left-0 right-0 bg-white border-b border-orange-100 shadow-md z-40 md:hidden"
-          >
-            <ul className="flex flex-col items-center py-6 space-y-4 text-gray-700 text-base font-medium">
-              {navItems.map((item) => (
+              return (
                 <li
                   key={item.name}
-                  onClick={() => handleNavClick(item)}
-                  className={`cursor-pointer hover:text-orange-600 ${
-                    (item.path && location.pathname === item.path) ||
-                    (!item.path && activeSection === item.id)
-                      ? "text-orange-600 font-semibold"
-                      : ""
+                  onClick={() => handleClick(item)}
+                  className={`cursor-pointer hover:text-orange-600 transition ${
+                    active ? "text-orange-600 font-semibold" : ""
                   }`}
                 >
                   {item.name}
                 </li>
+              );
+            })}
+          </ul>
+
+          {/* MOBILE MENU BUTTON */}
+          <button
+            className="md:hidden text-orange-700 ml-auto"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* MOBILE MENU */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            className="fixed top-14 left-0 right-0 bg-white shadow-xl md:hidden z-40"
+          >
+            <ul className="flex flex-col items-center gap-6 py-6 text-gray-700 text-lg font-medium">
+              {navItems.map((item) => (
+                <li
+                  key={item.name}
+                  onClick={() => handleClick(item)}
+                  className="hover:text-orange-600 cursor-pointer"
+                >
+                  {item.name}
+                </li>
               ))}
-              <li>
-                <a
-                  href="/PR-POWER-BROCHURE.pdf"
-                  target="_blank"
-                  className="block w-full text-center px-5 py-2 border border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition"
-                >
-                  Brochure
-                </a>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection("contact")}
-                  className="block w-full px-5 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
-                >
-                  Contact
-                </button>
-              </li>
             </ul>
           </motion.div>
         )}

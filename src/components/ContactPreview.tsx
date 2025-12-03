@@ -1,201 +1,172 @@
-import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
-import toast, { Toaster } from "react-hot-toast";
-import { Phone, Mail, MapPin, Send, MessageSquare } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Phone, Mail, MapPin, Clock, HelpCircle, ArrowRightCircle, CheckCircle, ClipboardList } from "lucide-react";
 
-const contactInfo = [
+const officeDetails = [
+  {
+    icon: MapPin,
+    title: "Our Office",
+    lines: ["Chennai (Avadi)", "Tamil Nadu, India"],
+    color: "from-orange-500 to-amber-500",
+  },
   {
     icon: Phone,
-    title: "Call Us",
-    details: ["+91 9080537672", "+91 9445257630"],
+    title: "Phone Numbers",
+    lines: ["+91 9080537672", "+91 9445257630"],
     color: "from-green-500 to-emerald-500",
   },
   {
     icon: Mail,
-    title: "Email Us",
-    details: ["prpowerinfra@gmail.com"],
+    title: "Email Address",
+    lines: ["prpowerinfra@gmail.com"],
     color: "from-blue-500 to-cyan-500",
   },
   {
-    icon: MapPin,
-    title: "Visit Us",
-    details: ["Chennai (Avadi)", "Tamil Nadu, India"],
-    color: "from-orange-500 to-amber-500",
+    icon: Clock,
+    title: "Business Hours",
+    lines: ["Mon – Sat", "9:00 AM – 7:00 PM"],
+    color: "from-purple-500 to-indigo-500",
+  },
+];
+
+const timelineSteps = [
+  {
+    icon: ClipboardList,
+    title: "Step 1: Share Your Requirement",
+    description: "Tell us about your project, scope, and expectations.",
+  },
+  {
+    icon: Phone,
+    title: "Step 2: We Contact You",
+    description: "Our engineering team connects with you within 24 hours.",
+  },
+  {
+    icon: ArrowRightCircle,
+    title: "Step 3: Site/Project Evaluation",
+    description: "We analyze your site conditions and technical needs.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Step 4: Final Proposal",
+    description: "You receive a clear, professional quotation and execution plan.",
+  },
+];
+
+const faqs = [
+  {
+    q: "What services do you offer?",
+    a: "We provide engineering, installation, testing, commissioning, and maintenance for power infrastructure projects."
+  },
+  {
+    q: "How quickly can I get a quote?",
+    a: "We typically respond within 24 hours with project-specific details."
+  },
+  {
+    q: "Do you work across India?",
+    a: "Yes. We deliver turnkey solutions across multiple states."
+  },
+  {
+    q: "Can I schedule a site visit?",
+    a: "Yes. Our engineers can conduct site visits upon request."
   },
 ];
 
 const ContactPreview = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data) => {
-    const templateParams = {
-      from_name: data.user_name,
-      from_email: data.user_email,
-      service: data.service,
-      message: data.message,
-    };
-
-    emailjs
-      .send(
-        "pr_power", // ✅ Your EmailJS Service ID
-        "template_ghkceht", // ✅ Your NEW Template ID
-        templateParams,
-        "oy6X13CAfsK_PoPpN" // ✅ Your Public Key
-      )
-      .then(() => {
-        toast.success("✅ Message sent successfully!");
-        reset();
-      })
-      .catch((err) => {
-        console.error("EmailJS Error:", err);
-        toast.error("❌ Failed to send message.");
-      });
-  };
-
   return (
-    <section className="py-20 bg-background">
-      <Toaster position="top-center" />
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left Section */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-orange-600 mb-6">
-              Let's Build Together
-            </h2>
-            <p className="text-xl text-muted-foreground mb-10">
-              Power your next project with confidence. Talk to our experts.
-            </p>
+    <section id="contact" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
 
-            {contactInfo.map((contact, i) => {
-              const Icon = contact.icon;
-              return (
-                <motion.div
-                  key={i}
-                  className="flex items-start gap-4 p-6 mb-4 bg-card border border-border rounded-xl shadow group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${contact.color} flex items-center justify-center`}
-                  >
-                    <Icon className="text-white w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">
-                      {contact.title}
-                    </h4>
-                    {contact.details.map((d, j) => (
-                      <p
-                        key={j}
-                        className="text-muted-foreground text-sm hover:text-primary cursor-pointer"
-                      >
-                        {d}
-                      </p>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <h2 className="text-4xl sm:text-5xl font-bold text-orange-600">
+            Contact Us
+          </h2>
+          <p className="text-gray-600 text-lg mt-3">
+            We're here to assist you with everything you need.
+          </p>
+        </motion.div>
 
-          {/* Right Section */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-card p-8 rounded-xl shadow-md border border-border"
-          >
-            <h3 className="text-2xl font-bold text-orange-600 mb-4">
-              Quick Inquiry
-            </h3>
-            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm text-muted-foreground">
-                    Full Name
-                  </label>
-                  <Input
-                    {...register("user_name", { required: true })}
-                    placeholder="Name"
-                  />
-                  {errors.user_name && (
-                    <span className="text-xs text-red-500">
-                      Name is required
-                    </span>
-                  )}
-                </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Email</label>
-                  <Input
-                    type="email"
-                    {...register("user_email", { required: true })}
-                    placeholder="you@email.com"
-                  />
-                  {errors.user_email && (
-                    <span className="text-xs text-red-500">
-                      Email is required
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div>
-                <label className="text-sm text-muted-foreground">
-                  Service Interested In
-                </label>
-                <select
-                  className="w-full px-3 py-2 border border-muted rounded-md"
-                  {...register("service")}
-                >
-                  <option value="">Select a service</option>
-                  <option value="Engineering">Engineering Services</option>
-                  <option value="Installation">Installation Services</option>
-                  <option value="Testing">Testing & Commissioning</option>
-                  <option value="Supply">Supply Services</option>
-                  <option value="OM">O&M Services</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-sm text-muted-foreground">Message</label>
-                <Textarea
-                  {...register("message", { required: true })}
-                  placeholder="Write your message..."
-                  rows={4}
-                  className="resize-none"
-                />
-                {errors.message && (
-                  <span className="text-xs text-red-500">
-                    Message is required
-                  </span>
-                )}
-              </div>
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full bg-gradient-to-r from-[#F26B1D] to-yellow-400 text-white hover:scale-105 transition"
+        {/* Contact Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+          {officeDetails.map((card, i) => {
+            const Icon = card.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.06,
+                  y: -5,
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                }}
+                className="p-6 rounded-xl bg-white border border-gray-200 shadow-sm flex flex-col items-start gap-3"
               >
-                <Send className="w-5 h-5 mr-2" /> Send Message
-
-              </Button>
-            </form>
-          </motion.div>
+                <div
+                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center shadow-md`}
+                >
+                  <Icon className="text-white w-6 h-6" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-800">
+                  {card.title}
+                </h4>
+                {card.lines.map((l, j) => (
+                  <p key={j} className="text-gray-600 text-sm">{l}</p>
+                ))}
+              </motion.div>
+            );
+          })}
         </div>
+
+
+
+        {/* FAQ Section */}
+        <div className="max-w-4xl mx-auto mb-20">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-3xl font-bold text-orange-600 text-center mb-10"
+          >
+            Frequently Asked Questions
+          </motion.h3>
+
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.03,
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                }}
+                className="p-5 rounded-xl bg-gray-100 border border-gray-200 hover:bg-white transition cursor-pointer"
+              >
+                <div className="flex items-start gap-3">
+                  <HelpCircle className="w-6 h-6 text-orange-600 mt-1" />
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-800 mb-1">
+                      {faq.q}
+                    </h4>
+                    <p className="text-gray-600 text-sm">{faq.a}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

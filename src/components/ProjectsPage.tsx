@@ -59,7 +59,7 @@ const ProjectPage = () => {
           transition={{ duration: 0.7 }}
           className="text-4xl md:text-5xl font-bold text-orange-600 mb-4"
         >
-          namba project
+           Projects
         </motion.h2>
         <p className="text-gray-600 max-w-xl mx-auto mb-12">
           Delivering excellence through innovative engineering solutions.

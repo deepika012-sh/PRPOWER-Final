@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Download } from "lucide-react";
-import heroImage from "@/assets/hero-power-infrastructure.jpg";
 import { useNavigate } from "react-router-dom";
+import heroVideo from "@/assets/hero-video.mp4";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -12,93 +12,103 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
       role="banner"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-[90px] sm:pt-[105px]"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="PR Power infrastructure"
-          className="w-full h-full object-cover scale-105 md:scale-100 transition-transform duration-1000"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2C2C2C]/80 via-black/70 to-[#F26B1D]/70" />
-      </div>
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        src={heroVideo}
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+      />
 
-      {/* Foreground Content */}
-      <div className="relative z-10 container mx-auto px-4 py-16 sm:py-24 lg:py-32">
-        <div className="text-center text-white max-w-4xl mx-auto">
-          {/* Heading */}
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-[#F26B1D]/12" />
+
+      {/* Content Container */}
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-10">
+        <div className="mx-auto text-center max-w-[1100px]">
+          {/* HEADLINE */}
           <motion.h1
-            className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 font-display"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="font-display font-extrabold text-white leading-tight"
+            style={{ lineHeight: 1.05 }}
           >
-            Powering Tomorrow with <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F26B1D] to-yellow-300">
-              Trusted Infrastructure
-            </span>{" "}
-            Today
+            <span className="block text-[clamp(1.5rem,5vw,2.5rem)]">
+              Powering Tomorrow with
+            </span>
+            <span className="block mt-2 text-[clamp(2rem,6vw,3.5rem)]">
+              <span className="text-white">Trusted </span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#F26B1D] to-yellow-300">
+                Infrastructure
+              </span>
+            </span>
+            <span className="block mt-1 text-[clamp(1.5rem,5vw,2.5rem)]">
+              Today
+            </span>
           </motion.h1>
 
-          {/* Subheading */}
+          {/* SUBTITLE */}
           <motion.p
-            className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
+            transition={{ duration: 0.95, delay: 0.12 }}
+            className="mt-4 text-white/85 text-sm sm:text-base md:text-lg mx-auto max-w-[700px]"
           >
-            Leading South India's turnkey execution of AIS/GIS substations,
-            transmission lines, solar/wind energy, and commissioning — backed
-            by 30+ years of excellence.
+            Delivering AIS/GIS substations, transmission lines, solar & wind
+            infrastructure projects — backed by 30+ years of engineering expertise.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTA BUTTONS */}
           <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-4 mb-10"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
+            transition={{ duration: 1.05, delay: 0.22 }}
+            className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button
-              size="lg"
-              className="bg-[#F26B1D] hover:bg-orange-600 text-white text-base px-8 py-4 rounded-full font-medium transition"
               onClick={() => navigate("/projects")}
+              className="w-full sm:w-auto px-6 py-3 text-sm sm:text-base rounded-full bg-[#F26B1D] hover:bg-orange-600 text-white font-medium flex items-center justify-center"
             >
-              View Our Projects <ArrowRight className="ml-2 w-5 h-5" />
+              View Our Projects <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
 
-            <a href="/PR-POWER-BROCHURE.pdf" download>
+            <a href="/PR-POWER-BROCHURE.pdf" download className="w-full sm:w-auto">
               <Button
-                size="lg"
-                className="bg-white text-[#F26B1D] hover:bg-[#F26B1D] hover:text-white text-base px-8 py-4 rounded-full transition"
+                className="w-full px-6 py-3 text-sm sm:text-base rounded-full bg-white text-[#F26B1D] hover:bg-[#F26B1D] hover:text-white font-medium flex items-center justify-center"
               >
-                <Download className="mr-2 w-5 h-5" />
+                <Download className="mr-2 w-4 h-4" />
                 Download Brochure
               </Button>
             </a>
           </motion.div>
 
-          {/* Stats */}
+          {/* STATS */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.6 }}
+            transition={{ duration: 1.2, delay: 0.36 }}
+            className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-12"
           >
-            <div>
-              <div className="text-4xl font-bold text-[#F26B1D]">30+</div>
-              <p className="text-white/80 text-sm mt-1">Years of Experience</p>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-[#F26B1D]">100+</div>
-              <p className="text-white/80 text-sm mt-1">Projects Completed</p>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-[#F26B1D]">400kV</div>
-              <p className="text-white/80 text-sm mt-1">Turnkey Capability</p>
-            </div>
+            {[
+              { value: "30+", label: "Years Experience" },
+              { value: "100+", label: "Projects Completed" },
+              { value: "400kV", label: "Turnkey Capability" },
+            ].map((stat, index) => (
+              <div key={index} className="text-center min-w-[100px]">
+                <div className="text-2xl md:text-4xl font-bold text-[#F26B1D]">
+                  {stat.value}
+                </div>
+                <div className="text-xs md:text-sm text-white/80 mt-1">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </div>
       </div>

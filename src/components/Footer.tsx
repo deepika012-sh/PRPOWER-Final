@@ -1,221 +1,168 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Download,
-  Linkedin,
-  ExternalLink,
-  ArrowUp,
-} from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUp, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const Footer = () => {
-  const location = useLocation();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleQuickLinkClick = (path) => {
-    if (path.startsWith("/")) return;
-    if (location.pathname !== "/") {
-      window.location.href = `/#${path}`;
-    } else {
-      const element = document.getElementById(path);
-      if (element) {
-        const offset = -80;
-        const y = element.getBoundingClientRect().top + window.scrollY + offset;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
-    }
-  };
-
-  const quickLinks = [
-    { name: "About Us", path: "about-section" },
-    { name: "Services", path: "services" },
-    { name: "Projects", path: "/projects" },
-    { name: "Contact", path: "contact" },
-  ];
-
-  const services = [
-    "Engineering Services",
-    "Installation Services",
-    "Supply Services",
-    "Testing & Commissioning",
-    "O&M Services",
-  ];
-
+const GlassFooter = () => {
   return (
-    <footer className="bg-neutral-900 text-white relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/30 to-transparent" />
-      </div>
+    <footer className="relative py-16 bg-neutral-950/90 backdrop-blur-2xl border-t border-white/10">
 
-      <div className="relative z-10">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {/* Company Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="lg:col-span-2"
-            >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">PR</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold">PR Power & Infrastructures</h3>
-                  <p className="text-white/80">
-                    Engineering Tomorrow's Energy Infrastructure Today
-                  </p>
-                </div>
-              </div>
+      {/* Dark Glow Background */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-neutral-900/50 to-transparent pointer-events-none" />
 
-              <p className="text-white/90 leading-relaxed mb-6 max-w-md">
-                Since 2018, we've delivered turnkey infrastructure solutions across
-                South India in AIS/GIS substations, transmission lines, and renewables.
-              </p>
+      <div className="relative max-w-6xl mx-auto px-6">
 
-              {/* ✅ Brochure Link */}
-              <a
-                href="/PR-POWER-BROCHURE.pdf"
-                download="PR-POWER-BROCHURE.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+        {/* BRAND + LOGO + TAGLINE */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14"
+        >
+          {/* Logo + Name */}
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-2xl font-extrabold text-white">PR</span>
+            </div>
+            <div>
+              <motion.h3
+                whileHover={{ x: 5, color: "#F97316" }}
+                transition={{ type: "spring", stiffness: 200 }}
+                className="text-xl font-bold text-white cursor-pointer"
               >
-                <Button
-                  variant="outline"
-                  className="border border-orange-500 text-orange-500 hover:bg-orange-500"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download Company Profile
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </Button>
-              </a>
-            </motion.div>
+                PR Power & Infrastructures
+              </motion.h3>
 
-            {/* Quick Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-xl font-bold mb-6 text-orange-400">Quick Links</h4>
-              <ul className="space-y-3">
-                {quickLinks.map((link, index) => (
-                  <li key={index}>
-                    {link.path.startsWith("/") ? (
-                      <Link
-                        to={link.path}
-                        className="text-white/80 hover:text-orange-400 transition duration-300"
-                      >
-                        {link.name}
-                      </Link>
-                    ) : (
-                      <button
-                        onClick={() => handleQuickLinkClick(link.path)}
-                        className="text-white/80 hover:text-orange-400 transition duration-300 text-left"
-                      >
-                        {link.name}
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Services */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-xl font-bold mb-6 text-orange-400">Our Services</h4>
-              <ul className="space-y-3">
-                {services.map((service, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => handleQuickLinkClick("services")}
-                      className="text-white/80 hover:text-orange-400 transition duration-300 text-left"
-                    >
-                      {service}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+              {/* Moving Tagline */}
+              <motion.p
+                whileHover={{ x: 8, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 120 }}
+                className="text-sm text-white/70 cursor-pointer"
+              >
+                Engineering Tomorrow's Energy Infrastructure Today
+              </motion.p>
+            </div>
           </div>
 
-          {/* Contact Info */}
+          {/* Brochure Button */}
+          <a
+            href="/PR-POWER-BROCHURE.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.92 }}>
+              <Button
+                variant="outline"
+                className="border border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white px-5 py-2 rounded-lg flex items-center gap-2"
+              >
+                <Download className="w-4.2 h-4.2" />
+                Download Brochure
+              </Button>
+            </motion.div>
+          </a>
+        </motion.div>
+
+        {/* Contact Columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-12">
+
+          {/* Contact */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="border-t border-white/20 pt-8 mt-12"
+            transition={{ duration: 0.6 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-orange-400" />
-                <div>
-                  <p className="font-medium">Call Us</p>
-                  <p className="text-sm text-white/80">
-                    +91 9080537672 • +91 9445257630
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-orange-400" />
-                <div>
-                  <p className="font-medium">Email Us</p>
-                  <p className="text-sm text-white/80">prpowerinfra@gmail.com</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="w-5 h-5 text-orange-400" />
-                <div>
-                  <p className="font-medium">Visit Us</p>
-                  <p className="text-sm text-white/80">Chennai (Avadi), Tamil Nadu</p>
-                </div>
-              </div>
-            </div>
+            <h4 className="text-lg font-semibold text-orange-400 mb-3">
+              Contact
+            </h4>
+
+            {/* Moving Hover Text Lines */}
+            <motion.p
+              whileHover={{ x: 10, color: "#FDE2CF" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="flex items-center gap-2 text-sm text-white/85 cursor-pointer"
+            >
+              <Phone className="w-4 h-4 text-orange-300" />
+              +91 9080537672
+            </motion.p>
+
+            <motion.p
+              whileHover={{ x: 10, color: "#FDE2CF" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="flex items-center gap-2 text-sm text-white/85 cursor-pointer mt-1"
+            >
+              <Phone className="w-4 h-4 text-orange-300" />
+              +91 9445257630
+            </motion.p>
           </motion.div>
+
+          {/* Email */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <h4 className="text-lg font-semibold text-orange-400 mb-3">Email</h4>
+
+            <motion.p
+              whileHover={{ x: 10, color: "#FDE2CF" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="flex items-center gap-2 text-sm text-white/85 cursor-pointer"
+            >
+              <Mail className="w-4 h-4 text-orange-300" />
+              prpowerinfra@gmail.com
+            </motion.p>
+          </motion.div>
+
+          {/* Location */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h4 className="text-lg font-semibold text-orange-400 mb-3">
+              Location
+            </h4>
+
+            <motion.p
+              whileHover={{ x: 10, color: "#FDE2CF" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="flex items-center gap-2 text-sm text-white/85 cursor-pointer"
+            >
+              <MapPin className="w-4 h-4 text-orange-300" />
+              Avadi, Chennai, Tamil Nadu
+            </motion.p>
+          </motion.div>
+
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-white/20">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="text-sm text-white/70">
-                © 2025 PR Power and Infrastructures. All rights reserved.
-              </div>
-              <div className="flex items-center space-x-6">
-                {/* <Link to="#" className="text-white/70 hover:text-orange-400 transition">
-                  <Linkedin className="w-5 h-5" />
-                </Link> */}
-                <button
-                  onClick={scrollToTop}
-                  className="flex items-center space-x-2 text-white/70 hover:text-orange-400 transition"
-                >
-                  <ArrowUp className="w-4 h-4" />
-                  <span className="text-sm">Back to top</span>
-                </button>
-              </div>
-            </div>
-          </div>
+        {/* Divider */}
+        <div className="border-t border-white/10 my-6"></div>
+
+        {/* Bottom Row */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-sm text-white/60"
+          >
+            © 2025 PR Power & Infrastructures. All rights reserved.
+          </motion.p>
+
+          {/* Back To Top */}
+          <motion.button
+            whileHover={{ scale: 1.12, x: 4 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-2 text-sm text-white/70 hover:text-orange-400 transition cursor-pointer"
+          >
+            <ArrowUp className="w-4 h-4" />
+            Back to top
+          </motion.button>
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer;
+export default GlassFooter;

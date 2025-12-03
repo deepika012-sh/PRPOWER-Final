@@ -1,4 +1,4 @@
-// src/App.jsx or App.tsx
+// src/App.tsx
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -23,19 +23,23 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+
+        {/* IMPORTANT: BrowserRouter MUST wrap all components using react-router hooks */}
         <BrowserRouter>
-          {/* Global Navigation */}
+          
+          {/* Navbar MUST be inside BrowserRouter */}
           <Navbar />
 
-          {/* Page Routes */}
+          {/* Application Routes */}
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 
-          {/* Global Footer (Only rendered once) */}
+          {/* Footer also must be inside BrowserRouter */}
           <Footer />
+
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
