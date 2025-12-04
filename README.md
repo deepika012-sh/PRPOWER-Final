@@ -123,8 +123,7 @@ Your build is optimized for fast global delivery and SEO-friendly performance.
 **Aswini S M**
 Web Developer | Java Developer | Tech Enthusiast
 
-**Deepika S** 
-Frontend Developer 
+
 
 Passionate about building modern web interfaces, solving real-world problems, and developing polished user experiences.
 
