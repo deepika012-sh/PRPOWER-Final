@@ -118,20 +118,6 @@ Your build is optimized for fast global delivery and SEO-friendly performance.
 
 ---
 
-## 👩🏻‍💻 About the Developers
-
-**Aswini S M**
-Web Developer | Java Developer | Tech Enthusiast
-
-
-
-Passionate about building modern web interfaces, solving real-world problems, and developing polished user experiences.
-
-* GitHub: [https://github.com/Aswini1008](https://github.com/Aswini1008)
-* LinkedIn: [https://www.linkedin.com/in/aswini-sm-97292629a](https://www.linkedin.com/in/aswini-sm-97292629a)
-* Email: [smaswini006@gmail.com](mailto:smaswini006@gmail.com)
-
----
 
 ## ⭐ If you like this project
 
